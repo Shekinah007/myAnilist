@@ -9,15 +9,40 @@ import { yearFilterOptions } from "../filerOptions/allFilterOptions";
 
 const Home = () => {
   const [animeList, setAnimeList] = useState();
-  const [page, setPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState();
   const [format, setFormat] = useState(undefined);
   const [seasonYear, setSeasonYear] = useState(undefined);
   const [genre, setGenre] = useState(undefined);
 
+  const [prevButtonDisabled, setPrevButtonDisabled] = useState(false);
+
   useEffect(() => {
-    filter(setAnimeList, page, format, search, seasonYear, genre);
-  }, [page, format, search, seasonYear, genre]);
+    filter(setAnimeList, currentPage, format, search, seasonYear, genre);
+  }, [currentPage, format, search, seasonYear, genre]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [format, search, seasonYear, genre]);
+  function navigatePage(e) {
+    console.log(e.target.value);
+    const pageInformation = animeList.data.Page.pageInfo;
+    console.log(pageInformation);
+
+    if (e.target.id === "prev") {
+      if (pageInformation.currentPage <= 1) {
+        setPrevButtonDisabled(true);
+      } else {
+        setPrevButtonDisabled(false);
+        setCurrentPage((prev) => prev - 1);
+      }
+    } else if (e.target.id === "next") {
+      if (pageInformation.hasNextPage) {
+        console.log("next!!");
+        setCurrentPage((prev) => prev + 1);
+      }
+    }
+  }
 
   return (
     <div className="bg-blue-100 min-h-screen">
@@ -74,6 +99,23 @@ const Home = () => {
               key={anime.id}
             />
           ))}
+      </div>
+      <div className="flex  justify-center gap-2 py-2">
+        <button
+          className="bg-slate-800 p-1 px-3 rounded active:text-blue-700 text-gray-200"
+          id="prev"
+          onClick={(e) => navigatePage(e)}
+          disabled={prevButtonDisabled}
+        >
+          Prev
+        </button>
+        <button
+          className="bg-slate-800 p-1 px-3 rounded active:text-blue-700 text-gray-200"
+          id="next"
+          onClick={(e) => navigatePage(e)}
+        >
+          Next
+        </button>
       </div>
     </div>
   );
