@@ -12,7 +12,7 @@ const AnimeCard = ({ id, title, coverImage }) => {
       <h2 className="leading-4 text-sm">{title && title.romaji}</h2>
       <img
         src={coverImage ? coverImage.extraLarge : ""}
-        className="rounded-lg h-64   hover:-translate-y-2 duration-200"
+        className="rounded-lg h-64 hover:-translate-y-2 duration-200"
       ></img>
     </Link>
   );
