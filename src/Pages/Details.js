@@ -22,7 +22,11 @@ const Details = () => {
               className="w-44 md:w-52"
             />
             <img
-              src={animeDetails.bannerImage}
+              src={
+                animeDetails.bannerImage
+                  ? animeDetails.bannerImage
+                  : animeDetails.coverImage.extraLarge
+              }
               className="absolute top-0 opacity-10 h-64 md:h-80 w-full"
             />
 

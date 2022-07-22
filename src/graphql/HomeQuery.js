@@ -1,5 +1,6 @@
 export const filter = (
   setAnimeList,
+  setIsPending,
   page,
   format,
   search,
@@ -8,7 +9,7 @@ export const filter = (
 ) => {
   var query = `
         query ($page: Int, $format: MediaFormat, $search: String, $seasonYear: Int, $genre: String)  {
-            Page (perPage: 20, page: $page){
+            Page (perPage: 24, page: $page){
             pageInfo { 
                 total
                 currentPage
@@ -71,10 +72,11 @@ export const filter = (
 
   function handleData(data) {
     setAnimeList(data);
+    setIsPending(false);
     console.log(data);
   }
 
   function handleError(error) {
-    console.error(error);
+    console.error("Hello", error);
   }
 };
